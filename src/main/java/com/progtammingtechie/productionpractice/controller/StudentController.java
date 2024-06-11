@@ -3,6 +3,7 @@ package com.progtammingtechie.productionpractice.controller;
 import com.progtammingtechie.productionpractice.bean.Student;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -38,4 +39,12 @@ public class StudentController {
                                   @PathVariable("last-name") String lastName) {
         return new Student(studentId, firstName, lastName);
     }
+
+    @GetMapping("/students/query")
+    public Student studentRequestVariable(@RequestParam int studentId,
+                                          @RequestParam String firstName,
+                                          @RequestParam String lastName) {
+        return new Student(studentId, firstName, lastName);
+    }
+
 }
