@@ -54,4 +54,11 @@ public class StudentController {
         return student;
     }
 
+    @PutMapping("/students/{id}/update")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Student updateStudent(@RequestBody Student student, @PathVariable("id") int studentId) {
+        System.out.println(student.getFirstName());
+        System.out.println(student.getLastName());
+        return student;
+    }
 }
