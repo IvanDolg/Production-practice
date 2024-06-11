@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("students")
 public class StudentController {
-    @GetMapping("/student")
+    @GetMapping
     public ResponseEntity<Student> getStudent() {
         Student strudent = new Student();
 
@@ -32,7 +33,7 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
-    @GetMapping("/students/{id}/{first-name}/{last-name}")
+    @GetMapping("/{id}/{first-name}/{last-name}")
     public ResponseEntity<Student> getStudentById(@PathVariable("id") int studentId,
                                   @PathVariable("first-name") String firstName,
                                   @PathVariable("last-name") String lastName) {
@@ -40,7 +41,7 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("/students/query")
+    @GetMapping("/query")
     public ResponseEntity<Student> studentRequestVariable(@RequestParam int studentId,
                                           @RequestParam String firstName,
                                           @RequestParam String lastName) {
@@ -48,7 +49,7 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @PostMapping("/students/create")
+    @PostMapping("/create")
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         System.out.println(student.getId());
         System.out.println(student.getFirstName());
@@ -56,14 +57,14 @@ public class StudentController {
         return new  ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
-    @PutMapping("/students/{id}/update")
+    @PutMapping("/{id}/update")
     public ResponseEntity<Student> updateStudent(@RequestBody Student student, @PathVariable("id") int studentId) {
         System.out.println(student.getFirstName());
         System.out.println(student.getLastName());
         return ResponseEntity.ok(student);
     }
 
-    @DeleteMapping("/students/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteStudent(@PathVariable("id") int studentId) {
         return ResponseEntity.ok("Student " + studentId + " was deleted");
     }
