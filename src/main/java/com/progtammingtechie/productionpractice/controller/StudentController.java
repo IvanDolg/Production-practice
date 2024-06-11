@@ -2,6 +2,7 @@ package com.progtammingtechie.productionpractice.controller;
 
 import com.progtammingtechie.productionpractice.bean.Student;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -29,5 +30,12 @@ public class StudentController {
         );
 
         return students;
+    }
+
+    @GetMapping("/students/{id}/{first-name}/{last-name}")
+    public Student getStudentById(@PathVariable("id") int studentId,
+                                  @PathVariable("first-name") String firstName,
+                                  @PathVariable("last-name") String lastName) {
+        return new Student(studentId, firstName, lastName);
     }
 }
