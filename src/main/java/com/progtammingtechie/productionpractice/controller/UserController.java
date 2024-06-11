@@ -1,5 +1,6 @@
 package com.progtammingtechie.productionpractice.controller;
 
+import com.progtammingtechie.productionpractice.dto.UserDto;
 import com.progtammingtechie.productionpractice.entity.User;
 import com.progtammingtechie.productionpractice.service.UserService;
 import lombok.AllArgsConstructor;
@@ -17,23 +18,24 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return new  ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
+        UserDto savedUser = userService.createUser(user);
+        return new  ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long userid) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long userid) {
         return new  ResponseEntity<>(userService.getUserById(userid), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         return new  ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@RequestBody User user,
-                                           @PathVariable("id") Long userid) {
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user,
+                                              @PathVariable("id") Long userid) {
         user.setId(userid);
         return new  ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
     }

@@ -1,6 +1,8 @@
 package com.progtammingtechie.productionpractice.service.impl;
 
+import com.progtammingtechie.productionpractice.dto.UserDto;
 import com.progtammingtechie.productionpractice.entity.User;
+import com.progtammingtechie.productionpractice.mapper.UserMapper;
 import com.progtammingtechie.productionpractice.repository.UserRepository;
 import com.progtammingtechie.productionpractice.service.UserService;
 import lombok.AllArgsConstructor;
@@ -17,28 +19,35 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDto createUser(UserDto userDto) {
+
+        User user = UserMapper.mapToUser(userDto);
+        User savedUser = userRepository.save(user);
+
+        UserDto savedUserDto = UserMapper.mapToUserDto(savedUser);
+        return savedUserDto;
     }
 
     @Override
-    public User getUserById(Long userid) {
-        Optional<User> user = userRepository.findById(userid);
-        return user.get();
+    public UserDto getUserById(Long userid) {
+        Optional<User> userOptional = userRepository.findById(userid);
+        User user = userOptional.get();
+        return UserMapper.mapToUserDto(user);
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(UserMapper::mapToUserDto).toList();
     }
 
     @Override
-    public User updateUser(User user) {
+    public UserDto updateUser(UserDto user) {
         User existUser = userRepository.findById(user.getId()).get();
         existUser.setFirstName(user.getFirstName());
         existUser.setSecondName(user.getSecondName());
         existUser.setEmail(user.getEmail());
-        return userRepository.save(existUser);
+        return UserMapper.mapToUserDto(userRepository.save(existUser));
     }
 
     @Override

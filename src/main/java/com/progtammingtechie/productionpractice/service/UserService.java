@@ -1,14 +1,15 @@
 package com.progtammingtechie.productionpractice.service;
 
+import com.progtammingtechie.productionpractice.dto.UserDto;
 import com.progtammingtechie.productionpractice.entity.User;
 
 import java.util.List;
 
 public interface UserService {
-    User createUser(User user);
-    User getUserById(Long userid);
-    List<User> getAllUsers();
+    UserDto createUser(UserDto user);
+    UserDto getUserById(Long userid);
+    List<UserDto> getAllUsers();
 
-    User updateUser(User user);
+    UserDto updateUser(UserDto user);
     void deleteUser(Long userid);
 }
