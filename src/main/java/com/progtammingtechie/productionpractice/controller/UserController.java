@@ -2,12 +2,16 @@ package com.progtammingtechie.productionpractice.controller;
 
 import com.progtammingtechie.productionpractice.dto.UserDto;
 import com.progtammingtechie.productionpractice.entity.User;
+import com.progtammingtechie.productionpractice.exception.ErrorDetails;
+import com.progtammingtechie.productionpractice.exception.RecurseNotFoundException;
 import com.progtammingtechie.productionpractice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -46,4 +50,14 @@ public class UserController {
         return new  ResponseEntity<>("Student " + userid + " was deleted", HttpStatus.OK);
     }
 
+//    @ExceptionHandler(RecurseNotFoundException.class)
+//    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(RecurseNotFoundException exception,
+//                                                                        WebRequest webRequest) {
+//        ErrorDetails errorDetails = new ErrorDetails(
+//                LocalDateTime.now(),
+//                exception.getMessage(),
+//                webRequest.getDescription(false),
+//                "USER_NOT_FOUND");
+//        return new  ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+//    }
 }

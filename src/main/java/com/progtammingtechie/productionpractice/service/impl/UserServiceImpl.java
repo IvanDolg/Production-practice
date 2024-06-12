@@ -2,6 +2,7 @@ package com.progtammingtechie.productionpractice.service.impl;
 
 import com.progtammingtechie.productionpractice.dto.UserDto;
 import com.progtammingtechie.productionpractice.entity.User;
+import com.progtammingtechie.productionpractice.exception.RecurseNotFoundException;
 import com.progtammingtechie.productionpractice.mapper.AutoUserMapper;
 import com.progtammingtechie.productionpractice.mapper.UserMapper;
 import com.progtammingtechie.productionpractice.repository.UserRepository;
@@ -39,8 +40,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Long userid) {
-        Optional<User> userOptional = userRepository.findById(userid);
-        User user = userOptional.get();
+        User user = userRepository.findById(userid).orElseThrow(
+                () -> new RecurseNotFoundException("User", "id", userid)
+        );
 
         //return UserMapper.mapToUserDto(user);
         //return modelMapper.map(user, UserDto.class);
@@ -60,7 +62,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto user) {
-        User existUser = userRepository.findById(user.getId()).get();
+        User existUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new RecurseNotFoundException("User", "id", user.getId())
+        );
         existUser.setFirstName(user.getFirstName());
         existUser.setSecondName(user.getSecondName());
         existUser.setEmail(user.getEmail());
@@ -73,6 +77,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userid) {
+        User existUser = userRepository.findById(userid).orElseThrow(
+                () -> new RecurseNotFoundException("User", "id", userid )
+        );
         userRepository.deleteById(userid);
     }
 }
