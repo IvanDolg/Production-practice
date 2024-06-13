@@ -5,6 +5,7 @@ import com.progtammingtechie.productionpractice.entity.User;
 import com.progtammingtechie.productionpractice.exception.ErrorDetails;
 import com.progtammingtechie.productionpractice.exception.RecurseNotFoundException;
 import com.progtammingtechie.productionpractice.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user) {
         UserDto savedUser = userService.createUser(user);
         return new  ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user,
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto user,
                                               @PathVariable("id") Long userid) {
         user.setId(userid);
         return new  ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
@@ -49,15 +50,4 @@ public class UserController {
         userService.deleteUser(userid);
         return new  ResponseEntity<>("Student " + userid + " was deleted", HttpStatus.OK);
     }
-
-//    @ExceptionHandler(RecurseNotFoundException.class)
-//    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(RecurseNotFoundException exception,
-//                                                                        WebRequest webRequest) {
-//        ErrorDetails errorDetails = new ErrorDetails(
-//                LocalDateTime.now(),
-//                exception.getMessage(),
-//                webRequest.getDescription(false),
-//                "USER_NOT_FOUND");
-//        return new  ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-//    }
 }
