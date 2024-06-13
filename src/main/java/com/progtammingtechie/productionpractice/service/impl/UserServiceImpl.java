@@ -2,6 +2,7 @@ package com.progtammingtechie.productionpractice.service.impl;
 
 import com.progtammingtechie.productionpractice.dto.UserDto;
 import com.progtammingtechie.productionpractice.entity.User;
+import com.progtammingtechie.productionpractice.exception.EmailAlreadyExistsException;
 import com.progtammingtechie.productionpractice.exception.RecurseNotFoundException;
 import com.progtammingtechie.productionpractice.mapper.AutoUserMapper;
 import com.progtammingtechie.productionpractice.mapper.UserMapper;
@@ -28,10 +29,16 @@ public class UserServiceImpl implements UserService {
         //User user = UserMapper.mapToUser(userDto);
         //User user = modelMapper.map(userDto, User.class);
 
+        Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
+
+        if (optionalUser.isPresent()){
+            throw new EmailAlreadyExistsException("Email already exists for User");
+        }
+
         User user = AutoUserMapper.MAPPER.mapToUser(userDto);
         User savedUser = userRepository.save(user);
 
-       //UserDto savedUserDto = UserMapper.mapToUserDto(savedUser);
+        //UserDto savedUserDto = UserMapper.mapToUserDto(savedUser);
         // UserDto savedUserDto = modelMapper.map(savedUser, UserDto.class);
 
         UserDto savedUserDto = AutoUserMapper.MAPPER.mapToUserDto(savedUser);
